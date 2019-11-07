@@ -2,6 +2,7 @@
 import cgi
 import database_handler
 import pymysql
+import new_artist
 
 def main():
 
@@ -30,13 +31,12 @@ def main():
 
     if ( form.getvalue('imageTitle') ):
         imageTitle = form.getvalue('imageTitle')
-        imageTitle = .lower()
+        imageTitle = imageTitle.lower()
     if ( form.getvalue('imageNewTitle') ):
         imageNewTitle = form.getvalue('imageNewTitle')
         imageNewTitle = imageNewTitle.lower()
     if ( form.getvalue('imageLink') ):
         imageLink = form.getvalue('imageLink')
-        imageLink = .lower()
     if ( form.getvalue('imageGallery') ):
         imageGallery = form.getvalue('imageGallery')
         imageGallery = imageGallery.lower()
@@ -47,7 +47,8 @@ def main():
         imageDetail = form.getvalue('imageDetail')
         imageDetail = imageDetail.lower()
 
-    if ( imageTitle == '' or imageNewTitle == '' ):
+    imageDetail = ''
+    if ( imageTitle == ''):
         print( """
             <body>
                 <h1>modify_image.py main(): Need to input name fields.
@@ -62,53 +63,83 @@ def main():
         cursor = database.cursor()
 
         #Get both image ids
-        query = "SELECT image_id FROM image WHERE name = '" + imageTitle + "'"
+        query = "SELECT image_id FROM image WHERE title = '" + imageTitle + "'"
         cursor.execute(query)
         response = cursor.fetchone()
 
-        query = "SELECT image_id FROM image WHERE name = '" + imageNewTitle + "'"
+        if ( imageNewTitle == '' ):
+            query = "SELECT title FROM image WHERE title = '" + imageTitle + "'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+            imageNewTitle = result[0]
+        query = "SELECT image_id FROM image WHERE title = '" + imageNewTitle + "'"
         cursor.execute(query)
         response_2 = cursor.fetchone()
 
+        if ( imageLink == '' ):
+            query = "SELECT link FROM image WHERE title = '" + imageTitle + "'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+            imageLink = result[0]
+
         #Get the gallery id
-        query = "SELECT gallery_id FROM gallery WHERE name = '" + imageGallery + "'"
-        cursor.execute(query)
-        check = cursor.fetchone()
-        if ( check == None ):
-            print("Error: The gallery does not exist. Create the gallery first")
-            sucess = -1
-        #Get the Artist Id:
-        query = "SELECT artist_id FROM artist WHERE name = '" + imageArtist + "'"
-        cursor.execute(query)
-        check = cursor.fetchone()
-        if ( check == None ):
-            print("modify_image.py main(): Artist does not exist. Adding new Artist.")
-            artist_id = new_artist.insert_new_artist(imageArtist)
-            if ( artist_id != 0 ):
-                print("modify_image.py main(): Artist added successfully")
-            else:
-                print("modify_image.py main(): Error Adding Artist")
+        if (  imageGallery == ''):
+            query = "SELECT gallery_id FROM image WHERE title = '" + imageTitle + "'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+            gallery_id = int(result[0])
         else:
-            artist_id = int ( check[0] )
+            query = "SELECT gallery_id FROM gallery WHERE name = '" + imageGallery + "'"
+            cursor.execute(query)
+            check = cursor.fetchone()
+            if ( check == None ):
+                print("Error: The gallery does not exist. Create the gallery first")
+                success = -1
+        #Get the Artist Id:
+        if ( imageArtist == '' ):
+            query = "SELECT artist_id FROM image WHERE title = '" + imageTitle + "'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+            artist_id = int(result[0])
+        else:
+            query = "SELECT artist_id FROM artist WHERE name = '" + imageArtist + "'"
+            cursor.execute(query)
+            check = cursor.fetchone()
+            if ( check == None ):
+                print("modify_image.py main(): Artist does not exist. Adding new Artist.")
+                artist_id = new_artist.insert_new_artist(imageArtist)
+                if ( artist_id != 0 ):
+                    print("modify_image.py main(): Artist added successfully")
+                else:
+                    print("modify_image.py main(): Error Adding Artist")
+            else:
+                artist_id = int ( check[0] )
 
         #Get the detail ID
-        query = "SELECT detail_id from detail WHERE image_id = '" + int(response[0]) + "'"
-        cursor.execute(query)
-        check = cursor.fetchone()
-        if ( check == None ):
-            print("modify_image.py main(): The image details do not exist")
-            detail_id = new_detail.insert_new_detail(image_id)
+        if ( imageDetail == '' ):
+            query = "SELECT detail_id FROM image WHERE title = '" + imageTitle + "'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+            detail_id = int(result[0])
         else:
-            detail_id = int(check[0])
+            query = "SELECT detail_id from detail WHERE image_id = '" + int(response[0]) + "'"
+            cursor.execute(query)
+            check = cursor.fetchone()
+            if ( check == None ):
+                print("modify_image.py main(): The image details do not exist")
+                detail_id = new_detail.insert_new_detail(image_id)
+            else:
+                detail_id = int(check[0])
 
         if ( response == None ):
             print("modify_image.py main(): The image does not exist")
         else:
             image_id = int ( response[0] )
             second_image_id = int ( response_2[0] )
+
             if ( image_id == second_image_id ):
                 query = 'UPDATE image SET title = %s, link = %s, gallery_id = %s, artist_id = %s, detail_id = %s WHERE image_id = %s'
-                values = (imageNewTitle, imageLink, imageGallery, imageArtist, imageDetail )
+                values = (imageNewTitle, imageLink, gallery_id, artist_id, detail_id, image_id )
                 cursor.execute(query, values)
                 database.commit()
             else:

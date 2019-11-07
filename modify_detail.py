@@ -76,7 +76,7 @@ def main():
                 detailYear = response[2]
             if ( detailType == ''):
                 detailType = response[3]
-            if ( detialWidth == 0):
+            if ( detailWidth == 0):
                 detailWidth = response[4]
             if ( detailHeight == 0):
                 detailHeight = response[5]

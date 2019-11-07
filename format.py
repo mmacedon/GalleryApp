@@ -13,6 +13,31 @@ class Gallery:
     def return_all_images(self):
         return images
 
+def format_artist_search( artists ):
+    output = ''
+    output = output + """<div class = 'row text-center'>
+                    <div class = 'col-12 col-lg-6 col-md-4 search_layout'>
+             """
+    for artist in artists:
+        output = output + """<h2> %s </h2>
+                    <ul> Birth Year: %s </br>
+                         Country: %s </br>
+                         Description: %s </br>
+                    </ul>
+        """ % (artist.name, artist.birth_year, artist.country, artist.description)
+        output = output + "<h3> Images by %s</h3>" % artist.name
+
+        for image in artist.images:
+            output = output + """
+                        <h2> %s </h2>
+                        <img class = 'image' src = %s alt = 'No Image Found' >
+                    """ % (image.title, image.link)
+
+    output = output + """ </div>
+                </div>
+            """
+    return output
+
 def format_image_search( ids ):
     output = ''
     title = []

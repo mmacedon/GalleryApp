@@ -35,7 +35,7 @@ def main():
         galleryDescription = form.getvalue('galleryDescription')
         galleryDescription = galleryDescription.lower()
 
-    if ( (gallery_new_name == '') or ( gallery_name == '' ) ):
+    if (  gallery_name == '' ):
         print("""
             <body>
                 <h1>modify_gallery.py main(): Need to input gallery name fields.
@@ -53,13 +53,24 @@ def main():
         cursor.execute(query)
         response = cursor.fetchone()
 
+        if ( gallery_new_name == ''):
+            query = "SELECT name FROM gallery WHERE name = '" + gallery_name + "'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+            gallery_new_name = result[0]
         query = "SELECT gallery_id FROM gallery where name = '" + gallery_new_name + "'"
         cursor.execute(query)
         response_2 = cursor.fetchone()
 
+        if ( gallery_description == ''):
+            query = "SELECT description FROM gallery WHERE name = '" + gallery_name + "'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+            gallery_description = result[0]
+
         if ( response == None ):
             print("modify_gallery.py main(): The gallery does not exist!")
-        elif ( response_2 != None ):
+        elif ( response_2 != response ):
             print("modify_gallery.py main(): There is already a gallery with name %s" % gallery_new_name )
         else:
             gallery_id = int(response[0])

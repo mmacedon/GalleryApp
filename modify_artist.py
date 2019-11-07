@@ -21,7 +21,7 @@ def main():
 
     artist_name = ''
     artist_new_name = ''
-    artist_birth_year = ''
+    artist_birth_year = 0
     artist_country = ''
     artist_description = ''
 
@@ -32,7 +32,7 @@ def main():
         artist_name = artist_name.lower()
     if ( form.getvalue('artistNewName') ):
         artist_new_name = form.getvalue('artistNewName')
-        artsit_new_name = artist_new_name.lower()
+        artist_new_name = artist_new_name.lower()
     if ( form.getvalue('artistBirthYear') ):
         artist_birth_year = form.getvalue('artistBirthYear')
         artist_birth_year = artist_birth_year.lower()
@@ -61,9 +61,34 @@ def main():
         cursor.execute(query)
         response = cursor.fetchone()
 
+        #Check if fields are inputted
+        if ( artist_new_name == '' ):
+            query = "SELECT name FROM artist WHERE name = '" + artist_name + "'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+            artist_new_name = result[0]
+
         query = "SELECT artist_id FROM artist WHERE name = '" + artist_new_name + "'"
         cursor.execute(query)
         response_2 = cursor.fetchone()
+
+        if ( artist_birth_year == 0 ):
+            query = "SELECT birth_year FROM artist WHERE name = '" + artist_name + "'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+            artist_birth_year = int(result[0])
+
+        if ( artist_country == '' ):
+            query = "SELECT country FROM artist WHERE name = '" + artist_name + "'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+            artist_country = result[0]
+
+        if ( artist_description == '' ):
+            query = "SELECT description FROM artist WHERE name = '" + artist_name + "'"
+            cursor.execute(query)
+            result = cursor.fetchone()
+            artist_description = result[0]
 
         if ( response == None ):
             print("modify_artist.py: main(): The Artist Does not Exist!")
