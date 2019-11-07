@@ -23,12 +23,12 @@ def insert_new_artist( artist_name ):
         query = "SELECT MAX(artist_id) from artist"
         cursor.execute(query)
         response = cursor.fetchone()
-        if ( response == None ):
+        if ( response[0] == None ):
             print("new_artist.py: insert_new_artist: No Artist in the Table")
             artist_id = 0
         else:
             artist_id = int(response[0]) + 1
-        query = "INSERT IGNORE INTO artist(artist_id, name, birth_year, country, description) VALUES(%s, %s, %d, %s, %s)"
+        query = "INSERT IGNORE INTO artist(artist_id, name, birth_year, country, description) VALUES(%s, %s, %s, %s, %s)"
         values = (artist_id, artist_name, 0, '', '')
         cursor.execute(query, values)
         database.commit()

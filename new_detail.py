@@ -5,6 +5,7 @@ import database_handler
 
 def insert_new_detail(image_id):
 
+    print(image_id)
     database = database_handler.initialize()
     if ( database == -1 ):
         print("new_detail.py insert_new_detail(): There was an error linking database.")
@@ -19,8 +20,9 @@ def insert_new_detail(image_id):
             detail_id = int(response[0]) + 1
 
         #insert into database
+        print("Image ID passed" + str(image_id))
         query = "INSERT IGNORE INTO detail(detail_id, image_id, year, type, width, height, location, description) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"
-        values = (str(detail_id), str(image_id), '', '', '', '', '', '')
+        values = (str(detail_id), image_id, '', '', '', '', '', '')
         cursor.execute(query, values)
         database.commit()
     database.close()

@@ -4,6 +4,7 @@ import cgi
 import pymysql
 import database_handler
 
+
 def main():
     form = cgi.FieldStorage()
 
@@ -73,7 +74,7 @@ def main():
             </script>
     """)
 
-def insert_new_gallery( name, descrption ):
+def insert_new_gallery( name, description ):
         database = database_handler.initialize()
         if ( database == -1 ):
             print("new_gallery.py: There was an error retrieving the database.")

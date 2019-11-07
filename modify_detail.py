@@ -50,7 +50,7 @@ def main():
          detailDescription = detailDescription.lower()
 
     if ( detailTitle == '' ):
-        print("new_detail.py main(): Error. Input Name Field")
+        print("modify_detail.py main(): Error. Input Name Field")
         return 0
     else:
         database = database_handler.initialize()
@@ -63,11 +63,27 @@ def main():
         query = "SELECT image_id FROM image WHERE title = '" + detailTitle + "'"
         cursor.execute(query)
         response = cursor.fetchone()
-
         if ( response == None ):
             print("modify_detail.py main(): Error! No image with name %s found." % detailTitle)
         else:
             image_id = int(response[0])
+
+            query = "SELECT * FROM detail WHERE image_id = '" + str(image_id) + "'"
+            cursor.execute(query)
+            response = cursor.fetchone()
+
+            if ( detailYear == 0):
+                detailYear = response[2]
+            if ( detailType == ''):
+                detailType = response[3]
+            if ( detialWidth == 0):
+                detailWidth = response[4]
+            if ( detailHeight == 0):
+                detailHeight = response[5]
+            if ( detailLocation == ''):
+                detailLocation = response[6]
+            if ( detailDescription == ''):
+                detailDescription = response[7]
 
             query = "SELECT detail_id FROM detail WHERE image_id = '" + str(image_id) + "'"
             cursor.execute(query)

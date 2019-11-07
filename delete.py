@@ -31,7 +31,7 @@ def delete_gallery( gallery_name ):
     print(response)
     ids = []
     for i in range(len(response)):
-        ids.append(int(response[0][i]))
+        ids.append(int(response[i][0]))
     print(ids)
     for i in range( len(ids) ):
         query = "Delete from detail WHERE image_id = " + str(ids[i])

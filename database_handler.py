@@ -5,7 +5,7 @@ class gallery:
     def __init__(self, id, name, des):
         self.id = int(id)
         self.name = str(name)
-        self.des = str(des)
+        self.description = str(des)
 
     def get_id(self):
         return self.id
@@ -41,7 +41,6 @@ def initialize():
                                 passwd = 'eecs118',
                                 database = 'gallery')
     if ( database != None ):
-        print("Successfully linked database")
         return database
     else:
         print("An error occured. Exiting...")
@@ -100,21 +99,20 @@ def get_all_images_in_gallery( name ):
 
         return images
 
-
 def get_all_galleries():
     database = initialize()
     if ( database == -1 ):
         print("An error occured. Exiting")
         return -1
-
     cursor = database.cursor()
     sql = "SELECT * FROM gallery"
     cursor.execute(sql)
     all_galleries = []
-    if ( cursor == None ):
+    response = cursor.fetchall()
+    if ( response == None ):
         return -1
     else:
-        for row in cursor.fetchall():
+        for row in response:
             current_entry = gallery(row[0], row[1], row[2])
             all_galleries.append(current_entry)
     closedatabase(database)

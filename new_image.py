@@ -65,12 +65,12 @@ def main():
             query = "SELECT MAX(image_id) FROM image"
             cursor.execute(query)
             response = cursor.fetchone()
-            if ( response == None ):
+            if ( response[0] == None ):
                 image_id = 0
             else:
                 image_id = int(response[0]) + 1
 
-            print(image_id)
+            print("Line 73 " + str(image_id))
             #Get the Gallery:
             query = ("SELECT gallery_id FROM gallery WHERE name = '" + i_gallery + "'")
             cursor.execute(query)
@@ -78,6 +78,7 @@ def main():
             if ( response == None ):
                 print("Error! The Name Typed in is Not Found in the Gallery.")
                 print("Please create the gallery first")
+                return 0
             else:
                 gallery_id = int(response[0])
 
@@ -96,8 +97,19 @@ def main():
                     artist_id = int(response[0])
 
                 #GET detail ID
-                detail_id = new_detail.insert_new_detail(image_id)
-                query = "INSERT IGNORE INTO image(image_id, title, link, gallery_id, artist_id, detail_id) VALUES(%s, %s, %s, %s, %s, %s)"
+                query = "SELECT detail_id FROM detail WHERE image_id = '" + str(image_id) + "'"
+                cursor.execute(query)
+                response = cursor.fetchone()
+                if ( response == None ):
+                    detail_id = new_detail.insert_new_detail(image_id)
+                    if ( detail_id != 0 ):
+                        print("Detail Added Successfully")
+                    else:
+                        print("Something went wrong")
+                else:
+                    detail_id = int(response[0])
+                print("Line 111: " + str(image_id))
+                query = "INSERT INTO image(image_id, title, link, gallery_id, artist_id, detail_id) VALUES(%s, %s, %s, %s, %s, %s)"
                 values = (image_id, i_name, i_link, gallery_id, artist_id, detail_id)
                 cursor.execute(query, values)
                 database.commit()
