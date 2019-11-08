@@ -22,7 +22,7 @@ def insert_new_detail(image_id):
         #insert into database
         print("Image ID passed" + str(image_id))
         query = "INSERT IGNORE INTO detail(detail_id, image_id, year, type, width, height, location, description) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"
-        values = (str(detail_id), image_id, '', '', '', '', '', '')
+        values = (str(detail_id), image_id, 'No Data', 'No Data', 'No Data', 'No Data', 'No Data', 'No Data')
         cursor.execute(query, values)
         database.commit()
     database.close()

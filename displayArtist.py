@@ -1,0 +1,1 @@
+#view_artist.py

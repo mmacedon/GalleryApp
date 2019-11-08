@@ -29,7 +29,7 @@ def insert_new_artist( artist_name ):
         else:
             artist_id = int(response[0]) + 1
         query = "INSERT IGNORE INTO artist(artist_id, name, birth_year, country, description) VALUES(%s, %s, %s, %s, %s)"
-        values = (artist_id, artist_name, 0, '', '')
+        values = (artist_id, artist_name, 0, 'No Data', 'No Data')
         cursor.execute(query, values)
         database.commit()
     database.close()

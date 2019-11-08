@@ -94,7 +94,9 @@ def main():
             print("modify_artist.py: main(): The Artist Does not Exist!")
         else:
             artist_id = int( response[0] )
-            second_artist_id = int(response_2[0])
+            if (response_2 == None ):
+                second_artist_id = artist_id
+            
             if ( artist_id == second_artist_id ):
                 query = 'UPDATE artist SET name = %s, birth_year = %s, country = %s, description = %s WHERE artist_id = %s'
                 values = (artist_new_name, artist_birth_year, artist_country, artist_description, artist_id )
