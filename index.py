@@ -133,7 +133,7 @@ print("""
                                         method = 'POST' target = '__new'>
                                     <label>Country:</label>
                                     <input type = "text" name = "artist_country">
-                                    <input type = 'submit' name = 'submit_artist_country' type = 'Submit' /> </br>
+                                    <input type = 'submit' name = 'submit_artist_country' value = 'Submit' /> </br>
                                 </form>
                             </div>
                             <div class = "col-12 col-lg-6">
@@ -174,6 +174,7 @@ print("""
                         </div>
                     </div>
             </div>
+        </html>
 
             <script>
 
@@ -199,7 +200,7 @@ print("""
             function View_Gallery() {
                 if ( view_gallery == 0 ){
                     document.getElementById('viewgallery').innerHTML = `
-                        <form action = '/test/cgi-gin/GalleryApp/dislaygallery.py'
+                        <form action = '/test/cgi-bin/GalleryApp/displayGallery.py'
                          method = 'POST' target = '__new'>
                                 <label> Gallery Name </label> <input type = 'text' name = 'gallery_name' > </br>
                                 <input type = 'submit' name = 'submit_gallery_name' value = 'View' /> </br>
