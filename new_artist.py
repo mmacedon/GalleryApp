@@ -72,6 +72,11 @@ def main():
         print("Error. Need to input name field")
 
     ##Check if the artist already exists
+    if ( artist_country == '' ):
+        artist_country = 'No Data'
+    if ( artist_description == '' ):
+        artist_description = 'No Data'
+        
     database = database_handler.initialize()
     if ( database == -1 ):
         print("new_artist.py add_artist: Error Linking Database")
