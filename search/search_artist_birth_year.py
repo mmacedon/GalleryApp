@@ -46,7 +46,7 @@ class Artist:
         return self.country
     def get_description(self):
         return self.description
-        
+
 def main():
     print( """
     <!Doctype html>

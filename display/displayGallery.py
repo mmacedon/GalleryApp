@@ -202,7 +202,7 @@ def main():
                 function viewImage() {
                     if ( viewImageInputBox == 0 ){
                         document.getElementById('viewImage').innerHTML = `
-                            <form action = '/test/cgi-bin/GalleryApp/displayImage.py'
+                            <form action = '/test/cgi-bin/GalleryApp/display/displayImage.py'
                                 method = 'POST' target = '__new'>
                                 <label> Title </label> <input type = 'text' name = 'image_name' > </br>
                                 <input type = 'submit' name = 'submit_image_view' value = 'View' />

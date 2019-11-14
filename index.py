@@ -27,7 +27,7 @@ all_galleries = database_handler.get_all_galleries()
 formatted = format.format_galleries(all_galleries)
 
 print("""
-        <!Doctype html>
+        <!DOCTYPE html>
         <html lang='en'>
         <head>
             <meta charset="UTF-8"/>
@@ -36,7 +36,6 @@ print("""
 
             <title>Gallery</title>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-            <link rel="stylesheet" href="css/style.py">
         </head>
 
         <body>
@@ -96,13 +95,13 @@ print("""
                         <h4>Images:</h4>
                                 <div class = "col-12 col-lg-6">
                                         <label>Type:</label>
-                                        <form action = '/test/cgi-bin/GalleryApp/search_image_type.py'
+                                        <form action = '/test/cgi-bin/GalleryApp/search/search_image_type.py'
                                             method = 'POST' target = '__new'>
                                             <input type = "text" name = "image_type">
                                             <input type = 'submit' name = 'submit_type' value = 'Submit' /> </br>
                                         </form>
                                         <label>Year:</label>
-                                        <form action = '/test/cgi-bin/GalleryApp/search_image_year.py'
+                                        <form action = '/test/cgi-bin/GalleryApp/search/search_image_year.py'
                                             method = 'POST' target = '__new'>
                                             <input type = "text" name = "start_year"> -
                                             <input type = "text" name = "end_year">
@@ -111,13 +110,13 @@ print("""
                                 </div>
                                 <div class = "col-12 col-lg-6">
                                         <label>Artist:</label>
-                                        <form action = '/test/cgi-bin/GalleryApp/search_image_artist.py'
+                                        <form action = '/test/cgi-bin/GalleryApp/search/search_image_artist.py'
                                             method = 'POST' target = '__new'>
                                             <input type = "text" name = "artist_name">
                                             <input type = 'submit' name = 'submit_image_artist' value = 'Submit' /> </br>
                                         </form>
                                         <label>Location:</label>
-                                        <form action = '/test/cgi-bin/GalleryApp/search_image_location.py'
+                                        <form action = '/test/cgi-bin/GalleryApp/search/search_image_location.py'
                                             method = 'POST' target = '__new'>
                                             <input type = 'text' name = 'location_name'>
                                             <input type = 'submit' name = 'submit_image_location' value = 'Submit' /> </br>
@@ -129,7 +128,7 @@ print("""
                     <div class ="row justify-contents-around">
                         <h4>Artist:</h4>
                             <div class = "col-12 col-lg-6">
-                                <form action = '/test/cgi-bin/GalleryApp/search_artist_country.py'
+                                <form action = '/test/cgi-bin/GalleryApp/search/search_artist_country.py'
                                         method = 'POST' target = '__new'>
                                     <label>Country:</label>
                                     <input type = "text" name = "artist_country">
@@ -137,7 +136,7 @@ print("""
                                 </form>
                             </div>
                             <div class = "col-12 col-lg-6">
-                                <form action = '/test/cgi-bin/GalleryApp/search_artist_birth_year.py'
+                                <form action = '/test/cgi-bin/GalleryApp/search/search_artist_birth_year.py'
                                     method = 'POST' target = '__new'>
                                     <label>Birth Year:</label>
                                     <input type = "text" name = "artist_birth_year">
@@ -174,7 +173,6 @@ print("""
                         </div>
                     </div>
             </div>
-        </html>
 
             <script>
 
@@ -200,7 +198,7 @@ print("""
             function View_Gallery() {
                 if ( view_gallery == 0 ){
                     document.getElementById('viewgallery').innerHTML = `
-                        <form action = '/test/cgi-bin/GalleryApp/displayGallery.py'
+                        <form action = '/test/cgi-bin/GalleryApp/display/displayGallery.py'
                          method = 'POST' target = '__new'>
                                 <label> Gallery Name </label> <input type = 'text' name = 'gallery_name' > </br>
                                 <input type = 'submit' name = 'submit_gallery_name' value = 'View' /> </br>
@@ -222,14 +220,15 @@ print("""
             function Create_New_Image() {
                 if (image_input_box == 0) {
                     document.getElementById('input_image').innerHTML = `
-                        <form action = '/test/cgi-bin/GalleryApp/new_image.py'
+                        <form action = '/test/cgi-bin/GalleryApp/new/new_image.py'
                          method = 'POST' target = '__new'>
                             <label> Title    </label> <input type = 'text' name = 'name'    > </br>
                             <label> Link     </label> <input type = 'text' name = 'link'    > </br>
                             <label> Artist   </label> <input type = 'text' name = 'artist'  > </br>
                             <label> Gallery  </label> <input type = 'text' name = 'gallery' > </br>
                             <input type = 'submit' name = 'submit_new_image'  value = 'Submit' />
-                        </form> `
+                        </form>
+                        `
                         image_input_box = 1;
                 }
                 else {
@@ -241,7 +240,7 @@ print("""
             function Create_New_Artist() {
                 if ( artist_input_box == 0 ) {
                     document.getElementById('input_artist').innerHTML = `
-                    <form action = '/test/cgi-bin/GalleryApp/new_artist.py'
+                    <form action = '/test/cgi-bin/GalleryApp/new/new_artist.py'
                     method = 'POST' target = '__new'>
                         <label>Name         </label><input type = 'text' name = 'artist_name'></br>
                         <label>Birth Year   </label><input type = 'text' name = 'artist_birth_year'></br>
@@ -260,7 +259,7 @@ print("""
             function Create_New_Gallery() {
                 if ( gallery_input_box == 0 ) {
                     document.getElementById('input_gallery').innerHTML = `
-                        <form action = '/test/cgi-bin/GalleryApp/new_gallery.py'
+                        <form action = '/test/cgi-bin/GalleryApp/new/new_gallery.py'
                         method = 'POST' target = '__new'>
                             <label> Name        </label><input type = 'text' name = 'gal_name'></br>
                             <label> Description </label><input type = 'text' name = 'gal_description'></br>
@@ -281,7 +280,7 @@ print("""
             function Modify_Gallery() {
                 if ( modifyGalleryInputBox == 0 ) {
                     document.getElementById('modifyGallery').innerHTML = `
-                        <form action = '/test/cgi-bin/GalleryApp/modify_gallery.py'
+                        <form action = '/test/cgi-bin/GalleryApp/modify/modify_gallery.py'
                             method = 'POST' target = '__new'
                             <label> Name            </label> <input type = 'text' name = 'galleryName'></br>
                             <label> New Name        </label> <input type = 'text' name = 'galleryNewName'></br>
@@ -300,7 +299,7 @@ print("""
             function Modify_Artist() {
             if ( modifyArtistInputBox == 0 ) {
                 document.getElementById('modifyArtist').innerHTML = `
-                <form action = '/test/cgi-bin/GalleryApp/modify_artist.py'
+                <form action = '/test/cgi-bin/GalleryApp/modify/modify_artist.py'
                     method = 'POST' target = '__new'>
                     <label> Artist Name </label> <input type = 'text' name = 'artistName'></br>
                     <label> New Name    </label> <input type = 'text' name = 'artistNewName'></br>
@@ -320,7 +319,7 @@ print("""
             function Modify_Image() {
                 if ( modifyImageInputBox == 0 ) {
                     document.getElementById('modifyImage').innerHTML = `
-                        <form   action = '/test/cgi-bin/GalleryApp/modify_image.py'
+                        <form   action = '/test/cgi-bin/GalleryApp/modify/modify_image.py'
                         method = 'POST' target = '__new'>
                             <label> Image Title </label> <input type = 'text' name = 'imageTitle'></br>
                             <label> New Title   </label> <input type = 'text' name = 'imageNewTitle'></br>
@@ -342,7 +341,7 @@ print("""
             function Modify_Detail() {
                 if ( modifyDetailInputBox == 0 ) {
                     document.getElementById('modifyDetail').innerHTML = `
-                    <form action = '/test/cgi-bin/GalleryApp/modify_detail.py'
+                    <form action = '/test/cgi-bin/GalleryApp/modify/modify_detail.py'
                     method = 'POST' target = '__new'>
                         <label> Image Title </label> <input type = 'text' name = 'detailTitle'> </br>
                         <label> Year        </label> <input type = 'text' name = 'detailYear'> </br>
@@ -363,4 +362,5 @@ print("""
             }
             </script>
         </body>
+        </html>
     """)

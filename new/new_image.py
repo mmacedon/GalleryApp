@@ -6,8 +6,6 @@ import new_gallery
 import new_detail
 import pymysql
 
-#import new_detail
-
 def main():
     i_name = ''
     i_link = ''
@@ -15,7 +13,6 @@ def main():
     i_gallery = ''
 
     FORM = cgi.FieldStorage()
-    print (FORM)
 
     if ( FORM.getvalue('name') ):
         i_name = FORM.getvalue('name')
@@ -42,7 +39,7 @@ def main():
                 <link rel="stylesheet" href="css/style.py">
             </head>""")
 
-    if ( (i_name == '') or (i_link == '') or (i_gallery == '')):
+    if ( (i_name == '') or (i_link == '')  or (i_artist == '') or (i_gallery == '')):
         print("""
             <body>
                 <h1>Image.py: Error! Please make sure all information is filled out and try again</h1>
@@ -53,6 +50,7 @@ def main():
         database = database_handler.initialize()
         if ( database == -1 ):
             print("new_image.py: There was an error retrieving the database.")
+            return -1
         cursor = database.cursor()
 
         #Check if the Image already exists:
@@ -70,7 +68,6 @@ def main():
             else:
                 image_id = int(response[0]) + 1
 
-            print("Line 73 " + str(image_id))
             #Get the Gallery:
             query = ("SELECT gallery_id FROM gallery WHERE name = '" + i_gallery + "'")
             cursor.execute(query)
@@ -78,7 +75,7 @@ def main():
             if ( response == None ):
                 print("Error! The Name Typed in is Not Found in the Gallery.")
                 print("Please create the gallery first")
-                return 0
+                return -1
             else:
                 gallery_id = int(response[0])
 
@@ -108,7 +105,6 @@ def main():
                         print("Something went wrong")
                 else:
                     detail_id = int(response[0])
-                print("Line 111: " + str(image_id))
                 query = "INSERT INTO image(image_id, title, link, gallery_id, artist_id, detail_id) VALUES(%s, %s, %s, %s, %s, %s)"
                 values = (image_id, i_name, i_link, gallery_id, artist_id, detail_id)
                 cursor.execute(query, values)
